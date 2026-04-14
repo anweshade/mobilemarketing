@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Marketing Pitch Builder — Student</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; }
+  .top-bar { background: #fff; border-bottom: 1px solid #e5e5e3; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+  .top-bar h1 { font-size: 16px; font-weight: 600; }
+  .top-bar .sub { font-size: 13px; color: #666; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
+  .status-dot.live { background: #22c55e; }
+  .container { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
+
+  /* Group selection */
+  #group-select-screen h2 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  #group-select-screen .intro { font-size: 14px; color: #555; margin-bottom: 20px; line-height: 1.6; }
+  .group-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .group-btn { border: 1.5px solid #e5e5e3; border-radius: 12px; padding: 16px; background: #fff; cursor: pointer; text-align: left; transition: all 0.15s; }
+  .group-btn:hover:not(:disabled) { border-color: #1D9E75; background: #f0fdf6; }
+  .group-btn:disabled { opacity: 0.45; cursor: not-allowed; background: #f9f9f8; }
+  .group-btn.taken { opacity: 0.4; cursor: not-allowed; }
+  .group-num { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 4px; }
+  .group-biz { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
+  .group-desc { font-size: 12px; color: #666; line-height: 1.4; }
+  .taken-label { font-size: 11px; color: #e55; font-weight: 600; margin-top: 4px; }
+
+  /* Builder */
+  #builder-screen { display: none; }
+  .biz-header { background: #fff; border: 1px solid #e5e5e3; border-radius: 14px; padding: 16px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+  .biz-emoji { font-size: 32px; width: 52px; height: 52px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .biz-name { font-size: 17px; font-weight: 600; color: #1a1a1a; }
+  .biz-brief { font-size: 13px; color: #555; line-height: 1.5; margin-top: 3px; }
+  .group-tag { font-size: 11px; font-weight: 600; color: #0F6E56; background: #E1F5EE; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 6px; }
+
+  .step-card { background: #fff; border: 1px solid #e5e5e3; border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; }
+  .step-num { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #1D9E75; margin-bottom: 4px; }
+  .step-q { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; line-height: 1.4; }
+  .step-hint { font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.5; font-style: italic; }
+  textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: inherit; color: #1a1a1a; resize: vertical; min-height: 72px; line-height: 1.5; background: #fafaf9; transition: border-color 0.15s; }
+  textarea:focus { outline: none; border-color: #1D9E75; background: #fff; }
+
+  .submit-area { margin-top: 20px; text-align: center; }
+  .submit-btn { background: #1D9E75; color: #fff; border: none; border-radius: 10px; padding: 13px 32px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .submit-btn:hover { background: #0F6E56; }
+  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
+  .error-msg { font-size: 13px; color: #c33; margin-top: 8px; display: none; }
+
+  /* Submitted */
+  #submitted-screen { display: none; text-align: center; padding: 40px 20px; }
+  .check-circle { width: 64px; height: 64px; border-radius: 50%; background: #E1F5EE; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px; }
+  #submitted-screen h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  #submitted-screen p { font-size: 14px; color: #555; line-height: 1.6; }
+
+  .loading { text-align: center; padding: 60px 20px; color: #888; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="status-dot" id="status-dot"></div>
+  <div>
+    <div class="top-bar h1" style="font-size:16px;font-weight:600;">Mobile Marketing Pitch Builder</div>
+    <div class="sub">MRKT 441 — Student view</div>
+  </div>
+</div>
+
+<div class="container">
+  <div id="loading-screen" class="loading">Connecting...</div>
+
+  <div id="group-select-screen" style="display:none;">
+    <h2>Pick your business</h2>
+    <p class="intro">Each group gets a unique local business. Once your group claims it, it's locked for everyone else. Work through the 6 steps to build your mobile marketing pitch, then present to the class!</p>
+    <div class="group-grid" id="group-grid"></div>
+  </div>
+
+  <div id="builder-screen">
+    <div class="biz-header" id="biz-header"></div>
+    <div id="steps-container"></div>
+    <div class="submit-area">
+      <button class="submit-btn" id="submit-btn" onclick="submitPitch()">Submit pitch for projector &rarr;</button>
+      <div class="error-msg" id="error-msg">Please fill in all 6 steps before submitting.</div>
+    </div>
+  </div>
+
+  <div id="submitted-screen">
+    <div class="check-circle">&#10003;</div>
+    <h2>Pitch submitted!</h2>
+    <p>Your campaign is now live on the projector screen.<br>Get ready to present to the class!</p>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBq8s0cZkAnE2d7OdlcUOtA-QYarhHVcqs",
+  authDomain: "sagacity-tea.firebaseapp.com",
+  databaseURL: "https://sagacity-tea-default-rtdb.firebaseio.com",
+  projectId: "sagacity-tea",
+  storageBucket: "sagacity-tea.firebasestorage.app",
+  messagingSenderId: "558874577393",
+  appId: "1:558874577393:web:334c4d894305b9020a5c50"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+const businesses = [
+  { id: 1, emoji: "🧘", name: "ZenFlow Yoga Studio", bg: "#E1F5EE", brief: "A boutique yoga studio with 2 locations. Wants to grow class bookings and reduce no-shows. Budget: $800/month. Has a basic app but barely anyone uses it." },
+  { id: 2, emoji: "🌮", name: "Fuego Food Truck", bg: "#FAEEDA", brief: "A popular taco truck that moves between 4 spots around the city. No app yet. Wants to let customers track where the truck is and drive lunchtime foot traffic." },
+  { id: 3, emoji: "📚", name: "Chapter One Bookstore", bg: "#E6F1FB", brief: "An indie bookstore with a loyal but aging customer base. Wants to reach younger shoppers and drive event attendance (author signings, book clubs)." },
+  { id: 4, emoji: "💇", name: "Salon Vivid", bg: "#FBEAF0", brief: "A hair and beauty salon with 3 stylists. Biggest problem: last-minute cancellations. Wants to fill empty slots and build a repeat-booking habit with customers." },
+  { id: 5, emoji: "🏋️", name: "IronYard Gym", bg: "#EEEDFE", brief: "A 24-hour independent gym competing with big chains. Has an app for check-ins but members rarely open it. Wants to improve retention and reduce membership cancellations." },
+  { id: 6, emoji: "🍕", name: "Slice & Dice Pizzeria", bg: "#FAECE7", brief: "A family-owned pizzeria launching online ordering. Wants to drive first-time app downloads and turn one-time orderers into loyal regulars." }
+];
+
+const steps = [
+  { key: "target", label: "Step 1 — Who are you targeting?", q: "Describe your target mobile user. Think about their behaviors, location habits, and when they're most likely to pull out their phone.", hint: "Hint: Are they 'snacking' or 'feasting'? When and where does location matter for this business?" },
+  { key: "tactic", label: "Step 2 — How will you reach them?", q: "Choose your main targeting tactic and explain why it fits this business.", hint: "Options from today: geo-fencing, geo-texting, push notifications, in-app ads, texting campaigns, zip-code targeting..." },
+  { key: "feature", label: "Step 3 — One killer app feature", q: "If this business built or improved a mobile app, what ONE feature would drive the most engagement? Why?", hint: "Think about: mobile chat, push notifications, loyalty rewards, easy purchase flow, device sync, social integration..." },
+  { key: "message", label: "Step 4 — Your campaign message", q: "Write the actual text of ONE push notification or text message you'd send to a customer. Make it feel real.", hint: "Keep it short — mobile users are snacking. Include a clear value and a reason to act now." },
+  { key: "metrics", label: "Step 5 — How will you measure success?", q: "Pick TWO metrics from today's lecture you'd track in Month 1 and explain what a 'good' result looks like for this business.", hint: "Options: install rate, stickiness (DAU/MAU), churn rate, push notification open rate, conversion rate, retention rate..." },
+  { key: "hook", label: "Step 6 — Your 10-second pitch hook", q: "Write one punchy sentence your group will open the pitch with. Sell the strategy!", hint: "Example: 'Right now, your best customers are walking past your door — we're going to make sure their phone tells them to come in.'" }
+];
+
+let myGroupId = null;
+let takenGroups = {};
+
+db.ref('.info/connected').on('value', snap => {
+  document.getElementById('status-dot').className = 'status-dot' + (snap.val() ? ' live' : '');
+});
+
+db.ref('mobile_pitch/taken').on('value', snap => {
+  takenGroups = snap.val() || {};
+  document.getElementById('loading-screen').style.display = 'none';
+  if (!myGroupId) {
+    document.getElementById('group-select-screen').style.display = 'block';
+    renderGroupGrid();
+  }
+});
+
+function renderGroupGrid() {
+  const grid = document.getElementById('group-grid');
+  grid.innerHTML = businesses.map(b => {
+    const taken = takenGroups[b.id];
+    return `<button class="group-btn ${taken ? 'taken' : ''}" onclick="claimGroup(${b.id})" ${taken ? 'disabled' : ''}>
+      <div class="group-num">Group ${b.id}</div>
+      <div class="group-biz">${b.emoji} ${b.name}</div>
+      <div class="group-desc">${b.brief.substring(0, 60)}...</div>
+      ${taken ? '<div class="taken-label">&#10006; Taken</div>' : ''}
+    </button>`;
+  }).join('');
+}
+
+function claimGroup(id) {
+  if (takenGroups[id]) return;
+  db.ref('mobile_pitch/taken/' + id).transaction(current => {
+    if (current) return; // already taken, abort
+    return true;
+  }, (err, committed) => {
+    if (committed) {
+      myGroupId = id;
+      document.getElementById('group-select-screen').style.display = 'none';
+      showBuilder(id);
+    } else {
+      renderGroupGrid();
+    }
+  });
+}
+
+function showBuilder(id) {
+  const b = businesses.find(x => x.id === id);
+  document.getElementById('builder-screen').style.display = 'block';
+  document.getElementById('biz-header').innerHTML = `
+    <div class="biz-emoji" style="background:${b.bg}">${b.emoji}</div>
+    <div>
+      <div class="group-tag">Group ${b.id}</div>
+      <div class="biz-name">${b.name}</div>
+      <div class="biz-brief">${b.brief}</div>
+    </div>
+  `;
+  document.getElementById('steps-container').innerHTML = steps.map(s => `
+    <div class="step-card">
+      <div class="step-num">${s.label}</div>
+      <div class="step-q">${s.q}</div>
+      <div class="step-hint">${s.hint}</div>
+      <textarea id="field-${s.key}" placeholder="Type your answer here..."></textarea>
+    </div>
+  `).join('');
+}
+
+function submitPitch() {
+  const answers = {};
+  let allFilled = true;
+  steps.forEach(s => {
+    const val = document.getElementById('field-' + s.key).value.trim();
+    if (!val) allFilled = false;
+    answers[s.key] = val;
+  });
+
+  if (!allFilled) {
+    document.getElementById('error-msg').style.display = 'block';
+    return;
+  }
+  document.getElementById('error-msg').style.display = 'none';
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('submit-btn').textContent = 'Submitting...';
+
+  const b = businesses.find(x => x.id === myGroupId);
+  db.ref('mobile_pitch/pitches/' + myGroupId).set({
+    groupId: myGroupId,
+    bizName: b.name,
+    emoji: b.emoji,
+    ...answers,
+    submittedAt: Date.now()
+  }, err => {
+    if (!err) {
+      document.getElementById('builder-screen').style.display = 'none';
+      document.getElementById('submitted-screen').style.display = 'block';
+    } else {
+      document.getElementById('submit-btn').disabled = false;
+      document.getElementById('submit-btn').textContent = 'Submit pitch for projector →';
+      alert('Error saving — please try again.');
+    }
+  });
+}
+</script>
+</body>
+</html>
