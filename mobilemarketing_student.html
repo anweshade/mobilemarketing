@@ -2,228 +2,228 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile Marketing Pitch Builder — Student</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mobile Pitch — MRKT 441</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; }
-  .top-bar { background: #fff; border-bottom: 1px solid #e5e5e3; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
-  .top-bar h1 { font-size: 16px; font-weight: 600; }
-  .top-bar .sub { font-size: 13px; color: #666; }
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
-  .status-dot.live { background: #22c55e; }
-  .container { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#5B21B6;--purple-lt:#EDE9FE;--purple-bd:#A78BFA;
+  --teal:#0F766E;--teal-lt:#CCFBF1;--teal-bd:#2DD4BF;
+  --orange:#C2410C;--orange-lt:#FFEDD5;--orange-bd:#FB923C;
+  --pink:#BE185D;--pink-lt:#FCE7F3;--pink-bd:#F472B6;
+  --indigo:#3730A3;--indigo-lt:#E0E7FF;--indigo-bd:#818CF8;
+  --red:#B91C1C;--red-lt:#FEE2E2;--red-bd:#F87171;
+  --dark:#1A1A2E;--bg:#F5F4F0;--surface:#FFFFFF;
+  --border:#E2DFD8;--muted:#6B6B8A;--light:#F0EEE9;
+}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;}
 
-  /* Group selection */
-  #group-select-screen h2 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
-  #group-select-screen .intro { font-size: 14px; color: #555; margin-bottom: 20px; line-height: 1.6; }
-  .group-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .group-btn { border: 1.5px solid #e5e5e3; border-radius: 12px; padding: 16px; background: #fff; cursor: pointer; text-align: left; transition: all 0.15s; }
-  .group-btn:hover:not(:disabled) { border-color: #1D9E75; background: #f0fdf6; }
-  .group-btn:disabled { opacity: 0.45; cursor: not-allowed; background: #f9f9f8; }
-  .group-btn.taken { opacity: 0.4; cursor: not-allowed; }
-  .group-num { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 4px; }
-  .group-biz { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
-  .group-desc { font-size: 12px; color: #666; line-height: 1.4; }
-  .taken-label { font-size: 11px; color: #e55; font-weight: 600; margin-top: 4px; }
+/* TOPBAR */
+.topbar{background:var(--dark);height:50px;display:flex;align-items:center;padding:0 1rem;gap:.75rem;position:sticky;top:0;z-index:100;}
+.topbar-logo{font-family:'Barlow Condensed',sans-serif;font-size:1.25rem;font-weight:900;color:#fff;letter-spacing:.04em;}
+.topbar-logo em{color:#A78BFA;font-style:normal;}
+.conn-pill{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.72rem;font-weight:700;color:#aaa;background:#ffffff18;border-radius:20px;padding:3px 10px;}
+.cdot{width:7px;height:7px;border-radius:50%;background:#555;flex-shrink:0;}
+.cdot.live{background:#2DD4BF;}
 
-  /* Builder */
-  #builder-screen { display: none; }
-  .biz-header { background: #fff; border: 1px solid #e5e5e3; border-radius: 14px; padding: 16px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
-  .biz-emoji { font-size: 32px; width: 52px; height: 52px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .biz-name { font-size: 17px; font-weight: 600; color: #1a1a1a; }
-  .biz-brief { font-size: 13px; color: #555; line-height: 1.5; margin-top: 3px; }
-  .group-tag { font-size: 11px; font-weight: 600; color: #0F6E56; background: #E1F5EE; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 6px; }
+/* CLAIM SCREEN */
+#screen-claim{display:flex;min-height:calc(100vh - 50px);flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;}
+.claim-hero{text-align:center;margin-bottom:1.5rem;}
+.claim-hero-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.4rem,10vw,4rem);font-weight:900;line-height:.9;color:var(--dark);margin-bottom:.75rem;}
+.claim-hero-title em{color:#A78BFA;font-style:normal;display:block;}
+.claim-hero-sub{font-size:.95rem;color:var(--muted);line-height:1.6;max-width:340px;margin:0 auto;}
+.biz-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:480px;}
+.biz-btn{border-radius:14px;padding:1.1rem 1rem;cursor:pointer;text-align:left;border:3px solid transparent;transition:all .18s;position:relative;}
+.biz-btn:hover:not([disabled]){transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.15);}
+.biz-btn[disabled]{opacity:.35;cursor:not-allowed;filter:grayscale(.5);}
+.biz-emoji{font-size:2.2rem;display:block;margin-bottom:.5rem;}
+.biz-name{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;line-height:1.2;margin-bottom:.25rem;}
+.biz-tagline{font-size:.78rem;opacity:.75;line-height:1.4;}
+.biz-taken{position:absolute;top:8px;right:8px;font-size:.65rem;font-weight:700;background:rgba(0,0,0,.18);color:#fff;border-radius:20px;padding:2px 8px;letter-spacing:.05em;}
+.b1{background:#EDE9FE;border-color:#A78BFA;} .b1 .biz-name{color:#4C1D95;}
+.b2{background:#FEF9C3;border-color:#FDE047;} .b2 .biz-name{color:#713F12;}
+.b3{background:#DBEAFE;border-color:#93C5FD;} .b3 .biz-name{color:#1E3A8A;}
+.b4{background:#FCE7F3;border-color:#F472B6;} .b4 .biz-name{color:#831843;}
+.b5{background:#CCFBF1;border-color:#2DD4BF;} .b5 .biz-name{color:#134E4A;}
+.b6{background:#FFEDD5;border-color:#FB923C;} .b6 .biz-name{color:#7C2D12;}
 
-  .step-card { background: #fff; border: 1px solid #e5e5e3; border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; }
-  .step-num { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #1D9E75; margin-bottom: 4px; }
-  .step-q { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; line-height: 1.4; }
-  .step-hint { font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.5; font-style: italic; }
-  textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: inherit; color: #1a1a1a; resize: vertical; min-height: 72px; line-height: 1.5; background: #fafaf9; transition: border-color 0.15s; }
-  textarea:focus { outline: none; border-color: #1D9E75; background: #fff; }
+/* BUILDER SCREEN */
+#screen-builder{display:none;}
+.biz-banner{border-radius:16px;padding:1.25rem 1.1rem;margin:.875rem .875rem 0;display:flex;align-items:center;gap:1rem;}
+.bb-emoji{font-size:3rem;flex-shrink:0;line-height:1;}
+.bb-group{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.65;margin-bottom:3px;}
+.bb-name{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:900;line-height:1.1;margin-bottom:3px;}
+.bb-brief{font-size:.8rem;opacity:.75;line-height:1.5;}
 
-  .submit-area { margin-top: 20px; text-align: center; }
-  .submit-btn { background: #1D9E75; color: #fff; border: none; border-radius: 10px; padding: 13px 32px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
-  .submit-btn:hover { background: #0F6E56; }
-  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
-  .error-msg { font-size: 13px; color: #c33; margin-top: 8px; display: none; }
+.prog-wrap{padding:.75rem .875rem .375rem;}
+.prog-track{height:6px;background:#E2DFD8;border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;width:0%;border-radius:99px;transition:width .3s;}
+.prog-label{font-size:.72rem;font-weight:600;margin-top:4px;text-align:right;}
 
-  /* Submitted */
-  #submitted-screen { display: none; text-align: center; padding: 40px 20px; }
-  .check-circle { width: 64px; height: 64px; border-radius: 50%; background: #E1F5EE; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px; }
-  #submitted-screen h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-  #submitted-screen p { font-size: 14px; color: #555; line-height: 1.6; }
+.steps-wrap{padding:.5rem .875rem;}
+.step-card{background:var(--surface);border:2px solid var(--border);border-radius:12px;margin-bottom:.625rem;overflow:hidden;transition:border-color .15s;}
+.step-card:focus-within{border-color:#A78BFA;}
+.step-head{padding:.7rem .9rem .4rem;display:flex;align-items:center;gap:.6rem;}
+.step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:900;flex-shrink:0;}
+.step-lbl{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.02em;}
+.step-hint{font-size:.78rem;color:var(--muted);line-height:1.55;padding:0 .9rem .6rem;}
+.step-card textarea{width:100%;min-height:68px;padding:.7rem .9rem;font-size:.85rem;border:none;border-top:2px solid var(--light);background:#FAFAF8;color:var(--dark);resize:none;font-family:'Barlow',sans-serif;line-height:1.55;}
+.step-card textarea:focus{outline:none;background:#fff;}
+.step-card textarea::placeholder{color:#C0BDBA;}
 
-  .loading { text-align: center; padding: 60px 20px; color: #888; font-size: 14px; }
+.submit-wrap{padding:.75rem .875rem 2rem;}
+.submit-btn{width:100%;padding:14px;font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:900;letter-spacing:.04em;background:var(--dark);color:#fff;border:none;border-radius:12px;cursor:pointer;transition:all .15s;}
+.submit-btn:hover:not(:disabled){background:#2d2d4e;transform:translateY(-1px);}
+.submit-btn:disabled{background:#B0AECA;cursor:not-allowed;}
+.err-msg{font-size:.8rem;font-weight:700;color:var(--red);background:var(--red-lt);border:1.5px solid var(--red-bd);border-radius:8px;padding:.6rem .9rem;margin-top:.625rem;text-align:center;display:none;}
+.spinner{display:inline-block;width:14px;height:14px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin-right:6px;vertical-align:middle;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SUBMITTED */
+#screen-done{display:none;text-align:center;padding:3rem 1.5rem;}
+.done-emoji{font-size:4.5rem;display:block;animation:pop .45s cubic-bezier(.34,1.56,.64,1);margin-bottom:1rem;}
+@keyframes pop{0%{transform:scale(.3) rotate(-10deg)}100%{transform:scale(1) rotate(0)}}
+.done-title{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:900;color:var(--dark);margin-bottom:.5rem;line-height:1;}
+.done-sub{font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem;}
+.done-pill{display:inline-flex;align-items:center;gap:.5rem;background:var(--dark);color:#fff;border-radius:99px;padding:.6rem 1.25rem;font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;}
 </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <div class="status-dot" id="status-dot"></div>
-  <div>
-    <div class="top-bar h1" style="font-size:16px;font-weight:600;">Mobile Marketing Pitch Builder</div>
-    <div class="sub">MRKT 441 — Student view</div>
+<div class="topbar">
+  <div class="topbar-logo">Mobile<em>Pitch</em> 📱</div>
+  <div class="conn-pill"><div class="cdot" id="cdot"></div><span id="clabel">Connecting</span></div>
+</div>
+
+<!-- CLAIM -->
+<div id="screen-claim">
+  <div class="claim-hero">
+    <div class="claim-hero-title">You're a<em>mobile agency.</em></div>
+    <div class="claim-hero-sub">Claim your client below. Once it's taken, it's gone. Build your pitch, then sell it to the class. 🎯</div>
+  </div>
+  <div class="biz-grid" id="biz-grid"></div>
+</div>
+
+<!-- BUILDER -->
+<div id="screen-builder">
+  <div class="biz-banner" id="biz-banner"></div>
+  <div class="prog-wrap">
+    <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+    <div class="prog-label" id="prog-label" style="color:var(--muted)">0 of 6 complete</div>
+  </div>
+  <div class="steps-wrap" id="steps-wrap"></div>
+  <div class="submit-wrap">
+    <button class="submit-btn" id="submit-btn" onclick="doSubmit()">SEND TO PROJECTOR →</button>
+    <div class="err-msg" id="err-msg">Fill in all 6 steps first!</div>
   </div>
 </div>
 
-<div class="container">
-  <div id="loading-screen" class="loading">Connecting...</div>
-
-  <div id="group-select-screen" style="display:none;">
-    <h2>Pick your business</h2>
-    <p class="intro">Each group gets a unique local business. Once your group claims it, it's locked for everyone else. Work through the 6 steps to build your mobile marketing pitch, then present to the class!</p>
-    <div class="group-grid" id="group-grid"></div>
-  </div>
-
-  <div id="builder-screen">
-    <div class="biz-header" id="biz-header"></div>
-    <div id="steps-container"></div>
-    <div class="submit-area">
-      <button class="submit-btn" id="submit-btn" onclick="submitPitch()">Submit pitch for projector &rarr;</button>
-      <div class="error-msg" id="error-msg">Please fill in all 6 steps before submitting.</div>
-    </div>
-  </div>
-
-  <div id="submitted-screen">
-    <div class="check-circle">&#10003;</div>
-    <h2>Pitch submitted!</h2>
-    <p>Your campaign is now live on the projector screen.<br>Get ready to present to the class!</p>
-  </div>
+<!-- DONE -->
+<div id="screen-done">
+  <span class="done-emoji">🚀</span>
+  <div class="done-title">You're live!</div>
+  <div class="done-sub">Your pitch is on the projector.<br>Time to present — make it count.</div>
+  <div class="done-pill" id="done-pill"></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBq8s0cZkAnE2d7OdlcUOtA-QYarhHVcqs",
-  authDomain: "sagacity-tea.firebaseapp.com",
-  databaseURL: "https://sagacity-tea-default-rtdb.firebaseio.com",
-  projectId: "sagacity-tea",
-  storageBucket: "sagacity-tea.firebasestorage.app",
-  messagingSenderId: "558874577393",
-  appId: "1:558874577393:web:334c4d894305b9020a5c50"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const FC={apiKey:"AIzaSyBq8s0cZkAnE2d7OdlcUOtA-QYarhHVcqs",authDomain:"sagacity-tea.firebaseapp.com",databaseURL:"https://sagacity-tea-default-rtdb.firebaseio.com",projectId:"sagacity-tea",storageBucket:"sagacity-tea.firebasestorage.app",messagingSenderId:"558874577393",appId:"1:558874577393:web:334c4d894305b9020a5c50"};
+firebase.initializeApp(FC);
+const db=firebase.database();
 
-const businesses = [
-  { id: 1, emoji: "🧘", name: "ZenFlow Yoga Studio", bg: "#E1F5EE", brief: "A boutique yoga studio with 2 locations. Wants to grow class bookings and reduce no-shows. Budget: $800/month. Has a basic app but barely anyone uses it." },
-  { id: 2, emoji: "🌮", name: "Fuego Food Truck", bg: "#FAEEDA", brief: "A popular taco truck that moves between 4 spots around the city. No app yet. Wants to let customers track where the truck is and drive lunchtime foot traffic." },
-  { id: 3, emoji: "📚", name: "Chapter One Bookstore", bg: "#E6F1FB", brief: "An indie bookstore with a loyal but aging customer base. Wants to reach younger shoppers and drive event attendance (author signings, book clubs)." },
-  { id: 4, emoji: "💇", name: "Salon Vivid", bg: "#FBEAF0", brief: "A hair and beauty salon with 3 stylists. Biggest problem: last-minute cancellations. Wants to fill empty slots and build a repeat-booking habit with customers." },
-  { id: 5, emoji: "🏋️", name: "IronYard Gym", bg: "#EEEDFE", brief: "A 24-hour independent gym competing with big chains. Has an app for check-ins but members rarely open it. Wants to improve retention and reduce membership cancellations." },
-  { id: 6, emoji: "🍕", name: "Slice & Dice Pizzeria", bg: "#FAECE7", brief: "A family-owned pizzeria launching online ordering. Wants to drive first-time app downloads and turn one-time orderers into loyal regulars." }
+const BIZ=[
+  {id:1,e:"🧘",n:"ZenFlow Yoga",t:"Dead app. Growing waitlist.",b:"Boutique yoga studio with 2 locations. No-shows are killing revenue. Has a basic app nobody uses. Budget: $800/month.",cls:"b1",prog:"#7C3AED"},
+  {id:2,e:"🌮",n:"Fuego Food Truck",t:"4 stops. Zero digital presence.",b:"Beloved taco truck rotating between 4 city spots daily. No app. Customers can't find them. Lunch rush is chaos.",cls:"b2",prog:"#D97706"},
+  {id:3,e:"📚",n:"Chapter One Books",t:"Loyal fans. Aging audience.",b:"Indie bookstore with a cult following — but mostly 40+. Wants younger shoppers and better turnout at events.",cls:"b3",prog:"#1D4ED8"},
+  {id:4,e:"💇",n:"Salon Vivid",t:"Last-minute cancellations hurt.",b:"Hair salon with 3 stylists. Empty slots cost real money. Wants to fill gaps fast and build repeat-booking habits.",cls:"b4",prog:"#BE185D"},
+  {id:5,e:"🏋️",n:"IronYard Gym",t:"App exists. Nobody opens it.",b:"24-hour gym vs big chains. Has a check-in app members ignore. Retention dropping month over month.",cls:"b5",prog:"#0F766E"},
+  {id:6,e:"🍕",n:"Slice & Dice Pizza",t:"Great pizza. Zero loyalty.",b:"Family pizzeria just launched online ordering. People order once and vanish. Wants first-timers to become regulars.",cls:"b6",prog:"#C2410C"}
 ];
 
-const steps = [
-  { key: "target", label: "Step 1 — Who are you targeting?", q: "Describe your target mobile user. Think about their behaviors, location habits, and when they're most likely to pull out their phone.", hint: "Hint: Are they 'snacking' or 'feasting'? When and where does location matter for this business?" },
-  { key: "tactic", label: "Step 2 — How will you reach them?", q: "Choose your main targeting tactic and explain why it fits this business.", hint: "Options from today: geo-fencing, geo-texting, push notifications, in-app ads, texting campaigns, zip-code targeting..." },
-  { key: "feature", label: "Step 3 — One killer app feature", q: "If this business built or improved a mobile app, what ONE feature would drive the most engagement? Why?", hint: "Think about: mobile chat, push notifications, loyalty rewards, easy purchase flow, device sync, social integration..." },
-  { key: "message", label: "Step 4 — Your campaign message", q: "Write the actual text of ONE push notification or text message you'd send to a customer. Make it feel real.", hint: "Keep it short — mobile users are snacking. Include a clear value and a reason to act now." },
-  { key: "metrics", label: "Step 5 — How will you measure success?", q: "Pick TWO metrics from today's lecture you'd track in Month 1 and explain what a 'good' result looks like for this business.", hint: "Options: install rate, stickiness (DAU/MAU), churn rate, push notification open rate, conversion rate, retention rate..." },
-  { key: "hook", label: "Step 6 — Your 10-second pitch hook", q: "Write one punchy sentence your group will open the pitch with. Sell the strategy!", hint: "Example: 'Right now, your best customers are walking past your door — we're going to make sure their phone tells them to come in.'" }
+const STEPS=[
+  {k:"target",l:"Who are you targeting?",c:"#7C3AED",bg:"#EDE9FE",hint:"Target mobile user — behaviors, location habits, when they check their phone. Snacking or feasting?"},
+  {k:"tactic",l:"How will you reach them?",c:"#0F766E",bg:"#CCFBF1",hint:"Pick your tactic from today's lecture: geo-fencing, geo-texting, push notifications, SMS campaigns... and say why it fits."},
+  {k:"feature",l:"One killer app feature",c:"#C2410C",bg:"#FFEDD5",hint:"If this business had a great app, what ONE feature drives the most engagement? Loyalty rewards, live tracking, easy checkout..."},
+  {k:"message",l:"Write your campaign message",c:"#B45309",bg:"#FEF9C3",hint:"Write the actual text of ONE push notification or SMS. Short, punchy, real — with a clear value and urgency."},
+  {k:"metrics",l:"How will you measure success?",c:"#7E22CE",bg:"#F5F3FF",hint:"Pick TWO metrics from today's lecture. What does a good result look like for this business? DAU/MAU, churn rate, push open rate..."},
+  {k:"hook",l:"🔥 Your 10-second pitch hook",c:"#B91C1C",bg:"#FEE2E2",hint:"One sentence to open your pitch that makes the class sit up. E.g. 'Every day 200 people walk past this truck without knowing it's there — we're fixing that.'"}
 ];
 
-let myGroupId = null;
-let takenGroups = {};
+let myId=null,taken={};
 
-db.ref('.info/connected').on('value', snap => {
-  document.getElementById('status-dot').className = 'status-dot' + (snap.val() ? ' live' : '');
+db.ref('.info/connected').on('value',s=>{
+  const v=s.val();
+  document.getElementById('cdot').className='cdot'+(v?' live':'');
+  document.getElementById('clabel').textContent=v?'Live':'Offline';
 });
+db.ref('mobile_pitch/taken').on('value',s=>{taken=s.val()||{};if(!myId)renderGrid();});
 
-db.ref('mobile_pitch/taken').on('value', snap => {
-  takenGroups = snap.val() || {};
-  document.getElementById('loading-screen').style.display = 'none';
-  if (!myGroupId) {
-    document.getElementById('group-select-screen').style.display = 'block';
-    renderGroupGrid();
-  }
-});
-
-function renderGroupGrid() {
-  const grid = document.getElementById('group-grid');
-  grid.innerHTML = businesses.map(b => {
-    const taken = takenGroups[b.id];
-    return `<button class="group-btn ${taken ? 'taken' : ''}" onclick="claimGroup(${b.id})" ${taken ? 'disabled' : ''}>
-      <div class="group-num">Group ${b.id}</div>
-      <div class="group-biz">${b.emoji} ${b.name}</div>
-      <div class="group-desc">${b.brief.substring(0, 60)}...</div>
-      ${taken ? '<div class="taken-label">&#10006; Taken</div>' : ''}
+function renderGrid(){
+  document.getElementById('biz-grid').innerHTML=BIZ.map(b=>{
+    const tk=taken[b.id];
+    return`<button class="biz-btn ${b.cls}" onclick="claim(${b.id})" ${tk?'disabled':''}>
+      ${tk?'<span class="biz-taken">TAKEN</span>':''}
+      <span class="biz-emoji">${b.e}</span>
+      <div class="biz-name">${b.n}</div>
+      <div class="biz-tagline">${b.t}</div>
     </button>`;
   }).join('');
 }
 
-function claimGroup(id) {
-  if (takenGroups[id]) return;
-  db.ref('mobile_pitch/taken/' + id).transaction(current => {
-    if (current) return; // already taken, abort
-    return true;
-  }, (err, committed) => {
-    if (committed) {
-      myGroupId = id;
-      document.getElementById('group-select-screen').style.display = 'none';
-      showBuilder(id);
-    } else {
-      renderGroupGrid();
-    }
+function claim(id){
+  if(taken[id])return;
+  db.ref('mobile_pitch/taken/'+id).transaction(c=>c?undefined:true,(e,ok)=>{
+    if(ok){myId=id;document.getElementById('screen-claim').style.display='none';buildScreen(id);}
+    else renderGrid();
   });
 }
 
-function showBuilder(id) {
-  const b = businesses.find(x => x.id === id);
-  document.getElementById('builder-screen').style.display = 'block';
-  document.getElementById('biz-header').innerHTML = `
-    <div class="biz-emoji" style="background:${b.bg}">${b.emoji}</div>
-    <div>
-      <div class="group-tag">Group ${b.id}</div>
-      <div class="biz-name">${b.name}</div>
-      <div class="biz-brief">${b.brief}</div>
-    </div>
-  `;
-  document.getElementById('steps-container').innerHTML = steps.map(s => `
+function buildScreen(id){
+  const b=BIZ.find(x=>x.id===id);
+  document.getElementById('screen-builder').style.display='block';
+  const bn=document.getElementById('biz-banner');
+  bn.className='biz-banner '+b.cls;
+  bn.innerHTML=`<div class="bb-emoji">${b.e}</div><div>
+    <div class="bb-group">Group ${b.id} — Your client</div>
+    <div class="bb-name">${b.n}</div>
+    <div class="bb-brief">${b.b}</div>
+  </div>`;
+  document.getElementById('prog-fill').style.background=b.prog;
+  document.getElementById('prog-label').style.color=b.prog;
+  document.getElementById('steps-wrap').innerHTML=STEPS.map((s,i)=>`
     <div class="step-card">
-      <div class="step-num">${s.label}</div>
-      <div class="step-q">${s.q}</div>
+      <div class="step-head">
+        <div class="step-num" style="background:${s.bg};color:${s.c}">${i+1}</div>
+        <div class="step-lbl" style="color:${s.c}">${s.l}</div>
+      </div>
       <div class="step-hint">${s.hint}</div>
-      <textarea id="field-${s.key}" placeholder="Type your answer here..."></textarea>
-    </div>
-  `).join('');
+      <textarea id="f-${s.k}" placeholder="Type here..." oninput="updateProg()"></textarea>
+    </div>`).join('');
 }
 
-function submitPitch() {
-  const answers = {};
-  let allFilled = true;
-  steps.forEach(s => {
-    const val = document.getElementById('field-' + s.key).value.trim();
-    if (!val) allFilled = false;
-    answers[s.key] = val;
-  });
+function updateProg(){
+  const n=STEPS.filter(s=>{const e=document.getElementById('f-'+s.k);return e&&e.value.trim();}).length;
+  document.getElementById('prog-fill').style.width=Math.round(n/STEPS.length*100)+'%';
+  document.getElementById('prog-label').textContent=n+' of '+STEPS.length+' complete';
+}
 
-  if (!allFilled) {
-    document.getElementById('error-msg').style.display = 'block';
-    return;
-  }
-  document.getElementById('error-msg').style.display = 'none';
-  document.getElementById('submit-btn').disabled = true;
-  document.getElementById('submit-btn').textContent = 'Submitting...';
-
-  const b = businesses.find(x => x.id === myGroupId);
-  db.ref('mobile_pitch/pitches/' + myGroupId).set({
-    groupId: myGroupId,
-    bizName: b.name,
-    emoji: b.emoji,
-    ...answers,
-    submittedAt: Date.now()
-  }, err => {
-    if (!err) {
-      document.getElementById('builder-screen').style.display = 'none';
-      document.getElementById('submitted-screen').style.display = 'block';
-    } else {
-      document.getElementById('submit-btn').disabled = false;
-      document.getElementById('submit-btn').textContent = 'Submit pitch for projector →';
-      alert('Error saving — please try again.');
-    }
+function doSubmit(){
+  const ans={};let ok=true;
+  STEPS.forEach(s=>{const v=document.getElementById('f-'+s.k).value.trim();if(!v)ok=false;ans[s.k]=v;});
+  if(!ok){document.getElementById('err-msg').style.display='block';return;}
+  document.getElementById('err-msg').style.display='none';
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>SENDING...';
+  const b=BIZ.find(x=>x.id===myId);
+  db.ref('mobile_pitch/pitches/'+myId).set({groupId:myId,bizName:b.n,emoji:b.e,cls:b.cls,prog:b.prog,...ans,ts:Date.now()},err=>{
+    if(!err){
+      document.getElementById('screen-builder').style.display='none';
+      document.getElementById('screen-done').style.display='block';
+      document.getElementById('done-pill').textContent=b.e+' '+b.n;
+    }else{btn.disabled=false;btn.innerHTML='SEND TO PROJECTOR →';alert('Error — try again.');}
   });
 }
 </script>
