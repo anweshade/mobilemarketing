@@ -73,34 +73,34 @@ body{font-family:'Barlow',sans-serif;background:#FFFFFF;color:#1A1A2E;min-height
 .p5{background:#CCFBF1;border-color:#2DD4BF;color:#134E4A;}
 .p6{background:#FFEDD5;border-color:#FB923C;color:#7C2D12;}
 
-/* PITCH VIEW */
-#screen-pitch{display:none;}
-.pv-back{margin-bottom:.875rem;}
+/* PITCH VIEW — full screen presentation mode */
+#screen-pitch{display:none;min-height:calc(100vh - 50px);}
+.pv-back{padding:.75rem 1.1rem;}
 
-.pv-slide{border-radius:20px;overflow:hidden;}
-.pv-s1{border-color:#A78BFA;} .pv-s2{border-color:#FDE047;} .pv-s3{border-color:#93C5FD;}
-.pv-s4{border-color:#F472B6;} .pv-s5{border-color:#2DD4BF;} .pv-s6{border-color:#FB923C;}
+.pv-slide{min-height:calc(100vh - 100px);display:flex;flex-direction:column;border-radius:0;overflow:hidden;}
 
-/* hero band — full color */
-.pv-hero{padding:1.75rem 1.5rem;display:flex;align-items:center;gap:1.25rem;}
-.pv-hero-emoji{font-size:4.5rem;line-height:1;flex-shrink:0;}
-.pv-grp-tag{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.65;margin-bottom:5px;}
-.pv-biz-name{font-family:'Barlow Condensed',sans-serif;font-size:2.8rem;font-weight:900;line-height:.95;margin-bottom:4px;}
-.pv-subtitle{font-size:.875rem;opacity:.6;font-weight:600;}
+/* HERO — giant colored header */
+.pv-hero{padding:2.5rem 2rem 2rem;display:flex;align-items:center;gap:1.5rem;flex-shrink:0;}
+.pv-hero-emoji{font-size:6rem;line-height:1;flex-shrink:0;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15));}
+.pv-grp-tag{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;opacity:.6;margin-bottom:6px;}
+.pv-biz-name{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.8rem,6vw,4.5rem);font-weight:900;line-height:.9;margin-bottom:8px;letter-spacing:-.01em;}
+.pv-subtitle{font-size:1.1rem;opacity:.65;font-weight:600;}
 
-/* hook band — dark */
-.pv-hook-band{background:#1A1A2E;padding:1.25rem 1.5rem;}
-.pv-hook-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#A78BFA;margin-bottom:.5rem;}
-.pv-hook-text{font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:700;color:#fff;line-height:1.3;font-style:italic;}
+/* HOOK — dark dramatic band */
+.pv-hook-band{background:#1A1A2E;padding:2rem 2rem;flex-shrink:0;}
+.pv-hook-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#A78BFA;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem;}
+.pv-hook-eyebrow::after{content:'';flex:1;height:1px;background:#A78BFA44;}
+.pv-hook-text{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:700;color:#fff;line-height:1.25;font-style:italic;}
 
-/* fields grid */
-.pv-fields{display:grid;grid-template-columns:1fr 1fr;background:#fff;}
-.pv-f{padding:.875rem 1.1rem;border-bottom:2px solid #F0EEE9;border-right:2px solid #F0EEE9;}
+/* FIELDS — big readable cards in a grid */
+.pv-fields{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1;background:#fff;}
+.pv-f{padding:1.5rem 1.75rem;border-bottom:2px solid #F0EEE9;border-right:2px solid #F0EEE9;display:flex;flex-direction:column;gap:.5rem;}
 .pv-f:nth-child(even){border-right:none;}
-.pv-f.full{grid-column:span 2;border-right:none;}
+.pv-f.full{grid-column:span 2;border-right:none;background:#FAFAFA;}
 .pv-f:last-child,.pv-f:nth-last-child(2):nth-child(odd){border-bottom:none;}
-.pv-f-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
-.pv-f-val{font-size:.9rem;color:#3A3A55;line-height:1.6;}
+.pv-f-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:.4rem;}
+.pv-f-lbl::before{content:'';width:10px;height:10px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.pv-f-val{font-size:clamp(1rem,2vw,1.25rem);color:#1A1A2E;line-height:1.55;font-weight:500;}
 </style>
 </head>
 <body>
@@ -221,23 +221,17 @@ function renderDash(){
 
 function showPitch(id){
   const p=pitches[id],b=BIZ.find(x=>x.id===id);if(!p)return;
-  const slide=document.getElementById('pv-slide');
-  slide.className='pv-slide';
-  slide.style.border='3px solid transparent';
-  // hero with biz color bg
   document.getElementById('pv-hero').style.background=b.bg;
   document.getElementById('pv-hero').innerHTML=`
     <div class="pv-hero-emoji">${b.e}</div>
     <div>
-      <div class="pv-grp-tag">Group ${b.id} — MRKT 441</div>
+      <div class="pv-grp-tag">Group ${b.id} &nbsp;·&nbsp; MRKT 441</div>
       <div class="pv-biz-name">${b.n}</div>
       <div class="pv-subtitle">${b.t}</div>
     </div>`;
-  // hook
   document.getElementById('pv-hook').innerHTML=`
     <div class="pv-hook-eyebrow">Opening hook</div>
     <div class="pv-hook-text">"${p.hook}"</div>`;
-  // fields
   document.getElementById('pv-fields').innerHTML=FDEFS.map(f=>`
     <div class="pv-f ${f.full?'full':''}">
       <div class="pv-f-lbl" style="color:${f.c}">${f.l}</div>
