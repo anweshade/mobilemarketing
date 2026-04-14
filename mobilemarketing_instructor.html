@@ -7,7 +7,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Barlow',sans-serif;background:#F5F4F0;color:#1A1A2E;min-height:100vh;}
+body{font-family:'Barlow',sans-serif;background:#FFFFFF;color:#1A1A2E;min-height:100vh;}
 
 /* TOPBAR */
 .topbar{background:#1A1A2E;height:50px;display:flex;align-items:center;padding:0 1.1rem;gap:.75rem;position:sticky;top:0;z-index:100;}
@@ -19,7 +19,7 @@ body{font-family:'Barlow',sans-serif;background:#F5F4F0;color:#1A1A2E;min-height
 .cdot{width:7px;height:7px;border-radius:50%;background:#555;flex-shrink:0;}
 .cdot.live{background:#2DD4BF;}
 
-.wrap{padding:1.1rem;}
+.wrap{padding:1.1rem;background:#FFFFFF;}
 
 /* WAITING */
 .page-title{font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:900;color:#1A1A2E;margin-bottom:3px;line-height:1;}
@@ -163,12 +163,12 @@ firebase.initializeApp(FC);
 const db=firebase.database();
 
 const BIZ=[
-  {id:1,e:"🧘",n:"ZenFlow Yoga",cls:"p1",sc:"pv-s1",bg:"#EDE9FE"},
-  {id:2,e:"🌮",n:"Fuego Food Truck",cls:"p2",sc:"pv-s2",bg:"#FEF9C3"},
-  {id:3,e:"📚",n:"Chapter One Books",cls:"p3",sc:"pv-s3",bg:"#DBEAFE"},
-  {id:4,e:"💇",n:"Salon Vivid",cls:"p4",sc:"pv-s4",bg:"#FCE7F3"},
-  {id:5,e:"🏋️",n:"IronYard Gym",cls:"p5",sc:"pv-s5",bg:"#CCFBF1"},
-  {id:6,e:"🍕",n:"Slice & Dice Pizza",cls:"p6",sc:"pv-s6",bg:"#FFEDD5"}
+  {id:1,e:"🧘",n:"ZenFlow Yoga",cls:"p1",sc:"pv-s1",bg:"#EDE9FE",t:"Dead app. Growing waitlist."},
+  {id:2,e:"🌮",n:"Fuego Food Truck",cls:"p2",sc:"pv-s2",bg:"#FEF9C3",t:"4 stops. Zero digital presence."},
+  {id:3,e:"📚",n:"Chapter One Books",cls:"p3",sc:"pv-s3",bg:"#DBEAFE",t:"Loyal fans. Aging audience."},
+  {id:4,e:"💇",n:"Salon Vivid",cls:"p4",sc:"pv-s4",bg:"#FCE7F3",t:"Last-minute cancellations hurt."},
+  {id:5,e:"🏋️",n:"IronYard Gym",cls:"p5",sc:"pv-s5",bg:"#CCFBF1",t:"App exists. Nobody opens it."},
+  {id:6,e:"🍕",n:"Slice & Dice Pizza",cls:"p6",sc:"pv-s6",bg:"#FFEDD5",t:"Great pizza. Zero loyalty."}
 ];
 
 const FDEFS=[
@@ -231,7 +231,7 @@ function showPitch(id){
     <div>
       <div class="pv-grp-tag">Group ${b.id} — MRKT 441</div>
       <div class="pv-biz-name">${b.n}</div>
-      <div class="pv-subtitle">Mobile Marketing Campaign Pitch</div>
+      <div class="pv-subtitle">${b.t}</div>
     </div>`;
   // hook
   document.getElementById('pv-hook').innerHTML=`
